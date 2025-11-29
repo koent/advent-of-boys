@@ -20,23 +20,26 @@ for day, time, action, nr, *_ in data2:
         for i in range(falls_time, wakes_time):
             day_guard_asleep_times[current_guard][day][i] = 1
 
-# for g in day_guard_asleep_times:
-#     print(g)
-#     for d in day_guard_asleep_times[g]:
-#         print(d, day_guard_asleep_times[g][d])
+# For each guard, count how many times they were asleep at each minute
+guard_minute_counts = {}
+for guard in day_guard_asleep_times:
+    minute_counts = [0] * 60
+    for day in day_guard_asleep_times[guard]:
+        for minute in range(60):
+            minute_counts[minute] += day_guard_asleep_times[guard][day][minute]
+    guard_minute_counts[guard] = minute_counts
 
-nof_minutes_asleep = []
+# For each guard, find their most frequently slept minute and its count
+best_guard = None
+best_minute = None
+best_count = 0
 
-for m in range(60):
-    nof_minutes_asleep.append(sum(sum(day_guard_asleep_times[g][d][m] for d in day_guard_asleep_times[g]) for g in day_guard_asleep_times))
+for guard in guard_minute_counts:
+    for minute in range(60):
+        count = guard_minute_counts[guard][minute]
+        if count > best_count:
+            best_count = count
+            best_guard = guard
+            best_minute = minute
 
-# print(nof_minutes_asleep)
-
-minute_most_asleep = max(enumerate(nof_minutes_asleep), key=lambda x: x[1])[0]
-
-guard_nof_times_minute_asleep = {g: sum(day_guard_asleep_times[g][d][minute_most_asleep] for d in day_guard_asleep_times[g]) for g in day_guard_asleep_times}
-
-
-guard = max(guard_nof_times_minute_asleep, key=guard_nof_times_minute_asleep.get)
-
-print(minute_most_asleep * int(guard[1:]))
+print(best_minute * int(best_guard[1:]))
