@@ -44,9 +44,7 @@ class Solution:
         for id_1 in self.input:
             nonoverlapping[id_1]=True
             for id_2 in self.input:
-                if id_1==id_2:
-                    pass
-                elif self._check_for_overlap(self.input[id_1], self.input[id_2]):
+                if id_1 != id_2 and self._check_for_overlap(self.input[id_1], self.input[id_2]):
                     nonoverlapping[id_1] = False
         
         # Return the id's that are nonioverlapping
