@@ -1,7 +1,7 @@
-with open('input.txt', 'r') as f:
-    data = [int(s) for s in f.read().splitlines()]
+from pathlib import Path
 
-print(data)
+with open(Path(__file__).parent / Path('input.txt'), 'r') as f:
+    data = [int(s) for s in f.read().splitlines()]
 
 seen_numbers = set()
 
